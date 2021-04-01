@@ -28,7 +28,6 @@
     $.extend(Plugin.prototype, {
         init: function () {
             this.buildCache();
-            this.callback(this.options.before);
             this.getTriggeredButtons();
             this.getDefaultValues();
             this.changeDisabledButtons();
@@ -53,11 +52,22 @@
         },
         changeDisabledButtons: function () {
             let plugin = this;
-            if (this.$element.find(":input:not([type=hidden])").serialize() === this.options.defaultValues) {
-                plugin.callback(plugin.options.onDisable);
-            } else {
-                plugin.callback(plugin.options.onEnable);
+            let enable = true;
+            if (this.options.strategy === $.fn.submitable.strategy.UPDATE) {
+                if (this.$element.find(":input:not([type=hidden])").serialize() === this.options.defaultValues) {
+                    enable = false
+                }
+            } else if (this.options.strategy === $.fn.submitable.strategy.NOT_EMPTY) {
+                console.log(this.$element.find(":input[required]:not([type=hidden])"));
+                let values = this.$element.find(":input[required]:not([type=hidden])").serializeArray();
+                values.forEach((element) => {
+                    if (element.value === '') {
+                        enable = false
+                    }
+                });
             }
+
+            enable ? plugin.callback(plugin.options.onEnable) : plugin.callback(plugin.options.onDisable);
         },
         bindEvents: function () {
             let plugin = this;
@@ -80,7 +90,6 @@
                 callback.call(this, args);
             }
         },
-        before: function (){},
         onEnable: function () {
             $.each(this.options.btn, function (index, submitSelector) {
                 submitSelector.prop('disabled', false);
@@ -111,9 +120,6 @@
         strategy: $.fn.submitable.strategy.UPDATE,
         btn: [],
         defaultValues: '',
-        before: function (args) {
-            this.before(args);
-        },
         onEnable: function (args) {
             this.onEnable(args);
         },
