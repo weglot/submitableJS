@@ -58,7 +58,6 @@
                     enable = false
                 }
             } else if (this.options.strategy === $.fn.submitable.strategy.NOT_EMPTY) {
-                console.log(this.$element.find(":input[required]:not([type=hidden])"));
                 let values = this.$element.find(":input[required]:not([type=hidden])").serializeArray();
                 values.forEach((element) => {
                     if (element.value === '') {

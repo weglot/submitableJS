@@ -1,6 +1,6 @@
 {
   "name": "submitablejs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Submitable give you an easy way to conditionally enable or disable submit button in your forms. It compare serialized values of your forms on document ready and on change",
   "repository": {
     "type": "git",
