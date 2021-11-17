@@ -71,7 +71,7 @@
         bindEvents: function () {
             let plugin = this;
             $(document).ready(function () {
-                plugin.$element.on('input paste', function () {
+                plugin.$element.on('input paste keyup', function () {
                     plugin.changeDisabledButtons();
                 });
             });
