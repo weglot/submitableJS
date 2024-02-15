@@ -1,0 +1,21 @@
+name: Package publish
+on:
+    push:
+        tags:
+            - '*'
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version-file: ".nvmrc"
+                  registry-url: https://npm.pkg.github.com/
+                  scope: "@weglot"
+            - run: npm install
+            - run: npm version ${GITHUB_REF##*/}
+            - run: npm publish
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
