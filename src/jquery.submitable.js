@@ -38,8 +38,16 @@
         },
         getDefaultValues: function () {
             if (this.options.defaultValues === '') {
-                this.options.defaultValues = $(this.element).find(":not([type=hidden])").serialize();
+                this.options.defaultValues = this.computeValues();
             }
+        },
+        computeValues: function () {
+            let values = {};
+            $(this.element).find(":not([type=hidden])").each((index, element) => {
+                values[element.name || index] = element.value;
+            })
+
+            return JSON.stringify(values);
         },
         getTriggeredButtons: function () {
             if (this.options.btn.length > 0) {
@@ -54,12 +62,9 @@
             let plugin = this;
             let enable = true;
             if (this.options.strategy === $.fn.submitable.strategy.UPDATE) {
-                if (this.$element.find(":input:not([type=hidden])").serialize() === this.options.defaultValues) {
-                    enable = false
-                }
+                enable = this.computeValues() !== this.options.defaultValues;
             } else if (this.options.strategy === $.fn.submitable.strategy.NOT_EMPTY) {
-                let values = this.$element.find(":input[required]:not([type=hidden])").serializeArray();
-                values.forEach((element) => {
+                let values = this.$element.find(":input[required]:not([type=hidden])").each((index, element) => {
                     if (element.value === '') {
                         enable = false
                     }
