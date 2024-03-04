@@ -44,6 +44,9 @@
         computeValues: function () {
             let values = {};
             $(this.element).find(":not([type=hidden])").each((index, element) => {
+                if (element.type === 'checkbox' && !element.checked) {
+                    return;
+                }
                 values[element.name || index] = element.value;
             })
 
