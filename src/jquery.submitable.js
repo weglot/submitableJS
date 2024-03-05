@@ -67,7 +67,7 @@
             if (this.options.strategy === $.fn.submitable.strategy.UPDATE) {
                 enable = this.computeValues() !== this.options.defaultValues;
             } else if (this.options.strategy === $.fn.submitable.strategy.NOT_EMPTY) {
-                let values = this.$element.find(":input[required]:not([type=hidden])").each((index, element) => {
+                this.$element.find(":input[required]:not([type=hidden]):not([disabled])").each((index, element) => {
                     if (element.value === '') {
                         enable = false
                     }
