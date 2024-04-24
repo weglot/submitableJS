@@ -67,7 +67,7 @@
             if (this.options.strategy === $.fn.submitable.strategy.UPDATE) {
                 enable = this.computeValues() !== this.options.defaultValues;
             } else if (this.options.strategy === $.fn.submitable.strategy.NOT_EMPTY) {
-                this.$element.find(":input[required]:not([type=hidden]):not([disabled])").each((index, element) => {
+                this.$element.find(":input[required]:not([type=hidden]):not([disabled]), select[required]:not([disabled])").each((index, element) => {
                     if (element.value === '') {
                         enable = false
                     }
@@ -99,12 +99,12 @@
         },
         onEnable: function () {
             $.each(this.options.btn, function (index, submitSelector) {
-                submitSelector.prop('disabled', false);
+                submitSelector.prop('disabled', false).removeClass('disabled');
             });
         },
         onDisable: function () {
             $.each(this.options.btn, function (index, submitSelector) {
-                submitSelector.prop('disabled', true);
+                submitSelector.prop('disabled', true).addClass('disabled');
             });
         }
     });
