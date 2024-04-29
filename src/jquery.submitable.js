@@ -44,7 +44,7 @@
         computeValues: function () {
             let values = {};
             $(this.element).find(":not([type=hidden])").each((index, element) => {
-                if (element.type === 'checkbox' && !element.checked) {
+                if ((element.type === 'checkbox' || element.type === 'radio') && !element.checked) {
                     return;
                 }
                 values[element.name || index] = element.value;
@@ -67,7 +67,7 @@
             if (this.options.strategy === $.fn.submitable.strategy.UPDATE) {
                 enable = this.computeValues() !== this.options.defaultValues;
             } else if (this.options.strategy === $.fn.submitable.strategy.NOT_EMPTY) {
-                this.$element.find(":input[required]:not([type=hidden]):not([disabled]), select[required]:not([disabled])").each((index, element) => {
+                this.$element.find(":input[required]:not([type=hidden]):not([disabled]), select[required]:not([disabled]), radio:not([disabled])").each((index, element) => {
                     if (element.value === '') {
                         enable = false
                     }
